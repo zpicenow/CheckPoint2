@@ -1,7 +1,7 @@
 package cisc181.cp_2;
 
 /**
- *
+ * my action to implement action
  */
 public class DiceAction implements Action<DiceGame>{
     private GamePiece player;
@@ -28,7 +28,7 @@ public class DiceAction implements Action<DiceGame>{
      * Placing a piece is only valid if:
      * 1. It is within the bounds of the board
      * 2. and it is the player's turn
-     * 3. and it is the "empty" piece at the given row/column
+     *
      */
     @Override
 
