@@ -15,6 +15,9 @@ public class DiceUI implements UserInput<DiceGame>{
     GamePiece gamePieceX = new GamePiece('X');
     GamePiece gamePieceO = new GamePiece('O');
 
+    /**
+     * constructor and make some position bonus
+     */
     public DiceUI(){
         game = new DiceGame(gamePieceX,gamePieceO,4,4,16);
         game.getGameBoard().getPiece(0,1).setScore(2);
@@ -27,6 +30,11 @@ public class DiceUI implements UserInput<DiceGame>{
         return game;
     }
 
+    /**
+     * override the implement method
+     * @param game game
+     * @return action
+     */
     public DiceAction getUserNextMove(DiceGame game){
 
         Scanner scr = new Scanner(System.in);
