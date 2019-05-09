@@ -3,7 +3,11 @@ package cisc181.cp_2;
 import java.util.Scanner;
 
 /**
- *
+ * Create a 4*4 map where two players walk by rolling dice.
+ * E means the location is empty;
+ * The number represents the extra incentive steps to that point.
+ * O, X means the player's position. When two players arrive at the same place, the default display is the first player to arrive.
+ * The first player to reach the end of the map wins
  */
 public class DiceUI implements UserInput<DiceGame>{
     private DiceGame game;
@@ -29,7 +33,7 @@ public class DiceUI implements UserInput<DiceGame>{
 
         boolean validMove = false;
         DiceAction move = null;
-        int tempScore;
+        int tempScore = 0;
         int row;
         int col;
 
@@ -44,20 +48,25 @@ public class DiceUI implements UserInput<DiceGame>{
                     row = col = 0;
                 } else {
 
-                    row = tempScore / 4;
-                    col = tempScore % 4 - 1;
+                    row = (tempScore-1) / 4;
+                    col = (tempScore-1) % 4 ;
                 }
+
                 game.getGameBoard().setPiece(row, col, new GamePiece('E'));
                 // Create an instance of the corresponding action
                 //  when user tosses their gamepiece, it will randomly land on the board
                 tempScore +=  Dice.rollDice();
+//                System.out.println("input the step ");
+//                int mytemp = scr.nextInt();
+//                tempScore += mytemp;
                 if (tempScore >= game.getNumConsecToWin()) {
-                    game.getTurnSymbol().setScore(game.getNumConsecToWin());
-                    break;
+                    tempScore = game.getNumConsecToWin();
+                    game.getTurnSymbol().setScore(tempScore);
+
                 }
                 System.out.println(tempScore);
 
-                row = tempScore / 4;
+                row = (tempScore -1)/ 4;
 
                 col = (tempScore- 1) % 4 ;
                 GamePiece gamePiece = game.getGameBoard().getPiece(row, col);
@@ -65,9 +74,9 @@ public class DiceUI implements UserInput<DiceGame>{
 
                     tempScore += gamePiece.getScore();
                     if (!game.isEnd()) {
-                        row = tempScore / 4;
+                        row = (tempScore-1) / 4;
 
-                        col = tempScore % 4 - 1;
+                        col = (tempScore- 1) % 4 ;
                         gamePiece = game.getGameBoard().getPiece(row, col);
                     } else {
                         break;
@@ -82,9 +91,10 @@ public class DiceUI implements UserInput<DiceGame>{
             }
             // check if its a valid move
             if(!validMove){
-                System.out.println("Invalid Move - try again");
+                System.out.println("another player - try again");
             }
         }
+        game.getTurnSymbol().setScore(tempScore);
         return move;
     }
 

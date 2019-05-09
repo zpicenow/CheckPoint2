@@ -38,14 +38,29 @@ public class DiceAction implements Action<DiceGame>{
 
     @Override
     public boolean isValid(DiceGame game) {
-        return game.getGameBoard().isInBounds(row, column) &&
-                game.getTurnSymbol() == player &&
-                game.getGameBoard().getPiece(row,column).isEmpty();
+        if (game.getGameBoard().isInBounds(row, column) && game.getTurnSymbol() == player) {
+            if (!game.getGameBoard().getPiece(row, column).isEmpty()) {
+                game.getGameBoard().setPiece(row, column, new GamePiece('#'));
+            }
+            return true;
+        } else {
+            return false;
+        }
+
     }
 
     @Override
     public void update(DiceGame game) {
+
         game.setPiece(row, column, player);
+        row = game.getNotTurnSymbol().getScore();
+        if (row != 0) {
+            row = (row - 1) / 4;
+            column = (game.getNotTurnSymbol().getScore() - 1) % 4;
+            game.setPiece(row, column, game.getNotTurnSymbol());
+        }
+
+
         game.changeTurn();
     }
 }
